@@ -1,0 +1,28 @@
+<template>
+  <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" viewBox="0 0 512 512">
+    <defs>
+      <symbol id="broken-clouds-b" viewBox="0 0 214.3 140.1">
+        <path fill="none" stroke="#94a3b8" stroke-linejoin="round" stroke-width="15" d="M7.5 100.2a32.4 32.4 0 0032.4 32.4h129.8v-.1l2.3.1a34.8 34.8 0 006.5-68.9 32.4 32.4 0 00-48.5-33 48.6 48.6 0 00-88.6 37.1h-1.5a32.4 32.4 0 00-32.4 32.4Z"/>
+      </symbol>
+      <symbol id="broken-clouds-c" viewBox="0 0 359 231">
+        <path fill="none" stroke="#d1d1d1" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" d="M295.5 223.5a56 56 0 000-112l-2.5.1a83.9 83.9 0 00-153-64.2 56 56 0 00-84.6 48.1 56.6 56.6 0 00.8 9 60 60 0 0011.2 119"/>
+      </symbol>
+      <symbol id="broken-clouds-d" viewBox="0 0 447.7 371.5">
+        <g clip-path="url(#broken-clouds-a)">
+          <use xlink:href="#broken-clouds-b" width="214.3" height="140.1" transform="translate(195.51 165.01)"/>
+        </g>
+        <use xlink:href="#broken-clouds-c" width="359" height="231" transform="translate(0 140.5)"/>
+      </symbol>
+      <clipPath id="broken-clouds-a">
+        <path fill="none" d="M351.5 308a56 56 0 00-56-56l-2.5.1A83.7 83.7 0 00211.5 148V0h236.2v308Z"/>
+      </clipPath>
+    </defs>
+    <use xlink:href="#broken-clouds-d" width="447.7" height="371.5" transform="translate(64.34)"/>
+  </svg>
+</template>
+
+<script>
+export default {
+  name: "IconBrokenClouds"
+};
+</script>

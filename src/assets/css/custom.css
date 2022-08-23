@@ -228,7 +228,11 @@ display: block;
     text-align: center;
     padding: 0; }
 #kbot-wrapper .kbot-forecast__column p {
-    margin-bottom: 0; }
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+    font-size: inherit;
+    text-align: inherit; }
 
 #kbot-wrapper .kbot-icon-big {
     height: 76px; }
@@ -239,3 +243,4 @@ display: block;
 
 #kbot-wrapper .kbot-text-muted {
     color: #868e96 }
+

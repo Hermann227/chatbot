@@ -1,0 +1,16 @@
+<template>
+  <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" viewBox="0 0 512 512">
+    <defs>
+      <symbol id="cloudy" viewBox="0 0 359 231">
+        <path fill="none" stroke="#d1d1d1" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" d="M295.5 223.5a56 56 0 000-112l-2.5.1a83.9 83.9 0 00-153-64.2 56 56 0 00-84.6 48.1 56.6 56.6 0 00.8 9 60 60 0 0011.2 119"/>
+      </symbol>
+    </defs>
+    <use xlink:href="#cloudy" width="359" height="231" transform="translate(76.5 140.5)"/>
+  </svg>
+</template>
+
+<script>
+export default {
+  name: "IconCloudy"
+};
+</script>

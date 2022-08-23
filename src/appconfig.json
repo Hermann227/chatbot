@@ -1,8 +1,24 @@
 {
     "settings": {
         "title": "Tünnes",
-        "version": "v. 0.4",
+        "version": "v. 0.1",
         "offline": false,
-        "actionserver": "http://192.168.178.184:8284"
-    }
+        "test": false,
+        "host": "http://localhost:3000/api/v1/bots/tuennes/converse/",
+        "userlogin": "holzh"
+    },
+    "favorites": [
+        {
+            "link": "#",
+            "image": "/src/assets/img/intranet.png",
+            "alttext": "Intranet",
+            "label": "Intranet"
+        },
+        {
+            "link": "#",
+            "image": "/src/assets/img/intranet.jpg",
+            "alttext": "Intranet",
+            "label": "Intranet"
+        }
+    ]
 }

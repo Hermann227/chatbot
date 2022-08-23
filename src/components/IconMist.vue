@@ -1,0 +1,11 @@
+<template>
+  <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" viewBox="0 0 512 512">
+    <path fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-miterlimit="10" stroke-width="18" d="M136 200h240M136 256h240M136 312h240"/>
+  </svg>
+</template>
+
+<script>
+export default {
+  name: "IconMist"
+};
+</script>

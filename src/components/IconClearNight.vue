@@ -1,0 +1,16 @@
+<template>
+  <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" viewBox="0 0 512 512">
+    <defs>
+      <symbol id="clear-night" viewBox="0 0 279 279">
+        <path fill="none" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="15" d="M256.8 173.1A133.3 133.3 0 01122.4 40.7 130.5 130.5 0 01127 7.5 133 133 0 007.5 139.1c0 73.1 60 132.4 134.2 132.4 62.5 0 114.8-42.2 129.8-99.2a135.6 135.6 0 01-14.8.8Z"/>
+      </symbol>
+    </defs>
+    <use xlink:href="#clear-night" width="279" height="279" transform="translate(116.5 116.5)"/>
+  </svg>
+</template>
+
+<script>
+export default {
+  name: "IconClearNight"
+};
+</script>

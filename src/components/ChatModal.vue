@@ -8,7 +8,7 @@
           <i :class="[isActiveIcon ? 'fa fa-times' : 'fa fa-bars']">
           </i>
         </div>
-        <span>Tünnes</span>
+        <span>{{ lstore.settings.title }}</span>
       </div>
     </div>
     <div id="chatLog" ref="chatLog">
@@ -18,36 +18,100 @@
         :key="index"
       >
         <span :class="chat.botResp ? 'response' : 'call'" class="bubble">
-          <div>{{chat.message}}</div>
+          <div v-if="chat.type != 'text'">
+            <div v-if="chat.type === 'WeatherCard'">
+              <WeatherCard :compData="compDataWeather" />
+            </div>
+            <div v-if="chat.type === 'WaterLevelCard'">
+              <WaterLevelCard :compData="compDataWater" />
+            </div>
+          </div>
+          <div v-else>{{chat.message}}</div>
         </span>
+      </div>
+ 
+      <div v-if="msgLoading" class="respLoading">
+        <svg
+          version="1.1"
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          width="24px"
+          height="30px"
+          viewBox="0 0 24 30"
+          style="enable-background:new 0 0 50 50;"
+          xml:space="preserve"
+        >
+          <rect x="0" y="13" width="4" height="5" fill="#333">
+            <animate
+              attributeName="height"
+              attributeType="XML"
+              values="5;21;5"
+              begin="0s"
+              dur="0.6s"
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="y"
+              attributeType="XML"
+              values="13; 5; 13"
+              begin="0s"
+              dur="0.6s"
+              repeatCount="indefinite"
+            />
+          </rect>
+          <rect x="10" y="13" width="4" height="5" fill="#333">
+            <animate
+              attributeName="height"
+              attributeType="XML"
+              values="5;21;5"
+              begin="0.15s"
+              dur="0.6s"
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="y"
+              attributeType="XML"
+              values="13; 5; 13"
+              begin="0.15s"
+              dur="0.6s"
+              repeatCount="indefinite"
+            />
+          </rect>
+          <rect x="20" y="13" width="4" height="5" fill="#333">
+            <animate
+              attributeName="height"
+              attributeType="XML"
+              values="5;21;5"
+              begin="0.3s"
+              dur="0.6s"
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="y"
+              attributeType="XML"
+              values="13; 5; 13"
+              begin="0.3s"
+              dur="0.6s"
+              repeatCount="indefinite"
+            />
+          </rect>
+        </svg>
       </div>
     </div>
     <div 
       class="navigation-menu"
       :class="[isActiveNav ? 'active' : '']">
       <nav>
-          <a href="#">
+          <a 
+            v-for="(link, index) in lstore.favorites"
+            :key="index"
+            href="#">
             <figure>
-              <img src="/src/assets/intranet.jpg" alt="Intranet" width="70px">
-              <figcaption>Intranet</figcaption>
-            </figure>
-          </a>
-          <a href="#">
-            <figure>
-              <img src="/src/assets/intranet.jpg" alt="Intranet" width="70px">
-              <figcaption>Intranet</figcaption>
-            </figure>
-          </a>
-          <a href="#">
-            <figure>
-              <img src="/src/assets/intranet.jpg" alt="Intranet" width="70px">
-              <figcaption>Intranet</figcaption>
-            </figure>
-          </a>
-          <a href="#">
-            <figure>
-              <img src="/src/assets/intranet.jpg" alt="Intranet" width="70px">
-              <figcaption>Intranet</figcaption>
+              <img :src="lstore.favorites[index].image" :alt="lstore.favorites[index].alttext">
+              <figcaption>{{ lstore.favorites[index].label }}</figcaption>
             </figure>
           </a>
       </nav>
@@ -68,111 +132,57 @@
 </template>
 
 <script>
+import { store } from '../store.js'
+import { getBotpress } from '../services/apiservices.js';
+import WeatherCard from './WeatherCard.vue';
+import WaterLevelCard from './WaterLevelCard.vue';
+
 export default {
   name: "ChatModal",
   components: {
-    
+    WeatherCard,
+    WaterLevelCard
   },
   data() {
     let time = new Date().getHours() + ":" + new Date().getMinutes();
     return {
+      lstore: store,
       isActiveIcon: false,
       isActiveNav: false,
       component:"",
+      compWeather: "WeatherCard",
+      compWaterLevel: "WaterLevelCard",
       tempMessage: "",
-      userData: [
-        {
-          name: "Sam Jones",
-          idNum: "123456789"
-        }
-      ],
+      msgLoading: false,
       chatScript: [],
-      response: [
-        {
-          call: "hello",
-          response: "Hello there"
-        },
-        {
-          call: "hey",
-          response: "Hello there"
-        },
-        {
-          call: "hi",
-          response: "Hello there"
-        },
-        {
-          call: "good bye",
-          response: "See ya later!"
-        },
-        {
-          call: "goodbye",
-          response: "Until next time."
-        },
-        {
-          call: "bye",
-          response: "It was great chatting with you!"
-        },
-        {
-          call: "What time is it?",
-          response: "It is " + time + " right now."
-        },
-        {
-          call: "What is your name?",
-          response:
-            "I do not have a name. My creators name is Alex. I'm Alex's bot."
-        },
-        {
-          call: "Are you a robot?",
-          response: "No, I am built with VueJS."
-        },
-        {
-          call: "How are you?",
-          response: "I really can't complain'"
-        },
-        {
-          call: "Who Are You?",
-          response:
-            "With a little work, I could be a really cool website assistant."
-        },
-        {
-          call: "wetter",
-          response:
-            "$WeatherCard"
-        },
-        {
-          call: "What are your store hours?",
-          response: "We are open Mon-Fri 9AM-6PM. Saturday & Sunday 10AM-3PM."
-        },
-        {
-          call: "What is my ID Number?",
-          response: "Your ID Number is {idNum}"
-        },
-        {
-          call: "Help",
-          response:
-            "You can ask the following questions:\n'What is my ID Number?'\n'What are your store hours?'\n'Who Are You?'\n'What is your name?'\n'How are you?'\n'Are you a robot?'\n'What time is it?'\n'What is VueJS?'"
-        }
-      ]
+      compDataWeather: {},
+      compDataWater: {}
     };
   },
   mounted() {
-    this.$nextTick(async function () {
-      if (this.userData[0].name){
+    if (this.lstore.settings.offline) {
         let botInput = {
-          message: "Hallo " + this.userData[0].name + ", \nich bin Tünnes, dein digitaler Helfer. Was kann ich für dich tun?",
-          botResp: true,
-          type: "text"
-        };
-        this.chatScript.push(Object.assign(botInput));
-      }
-    })
+        message: "Hallo, \nich bin Tünnes, dein digitaler Helfer. Leider bin ich zur Zeit offline und kann dir nicht weiterhelfen.",
+        botResp: true,
+        type: "text"
+      };
+      this.chatScript.push(Object.assign(botInput));
+    }
+    else if (this.lstore.settings.userlogin) {
+      let botInput = {
+        message: "Hallo " + this.lstore.settings.userlogin + ", \nich bin Tünnes, dein digitaler Helfer. Was kann ich für dich tun?",
+        botResp: true,
+        type: "text"
+      };
+    this.chatScript.push(Object.assign(botInput));
+    }
   },
   updated() {
     var chatLog = this.$refs.chatLog;
     chatLog.scrollTop = chatLog.scrollHeight;
   },
   methods: {
-    submit: function() {
+    submit: async function() {
       if (this.tempMessage.length > 0) {
         let h = new Date().getHours();
         let m = new Date().getMinutes();
@@ -187,53 +197,65 @@ export default {
         };
         this.chatScript.push(Object.assign(chatInput));
         this.msgLoading = true;
-        var botInput
+        var botInput;
 
-        for (var i = 0; i < this.response.length; i++) {
-          let resp = this.response[i].response;
-          if (
-            this.response[i].call
-              .replace(/[^a-zA-Z0-9 ]/g, "")
-              .toLowerCase() ===
-            msgSent.replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase()
-          ) {
-            if (resp.includes("{")) {
-              var dataMatch = resp.match("{(.*)}");
-              var dataRep = resp.replace(
-                dataMatch[0],
-                this.userData[0][dataMatch[1]]
-              );
-              botInput = {
-                message: dataRep,
-                botResp: true,
-                time: h + ":" + m + ":" + s,
-                type: dataRep
-              };
-            } else {
-              botInput = {
-                message: resp,
-                botResp: true,
-                time: h + ":" + m + ":" + s,
-                type: resp
-              };
+        let url = this.lstore.settings.host
+        let userid = this.lstore.settings.userlogin
+        let respBot = await getBotpress(url, userid, msgSent);
+        
+        let messageType = "";
+        let messageText = "";
+
+        if (typeof respBot.error != "undefined") {
+          if (respBot.error == false) {
+            if (respBot.type == "component") {
+              messageText = "";
+              if (respBot.typeName == "weather-with-forecast" || respBot.typeName == "weather-without-forecast") {
+                this.compDataWeather = respBot;
+                // this.component = "WeatherCard";
+                messageType = "WeatherCard";
+                console.log ("WeatherCard sent to frontend")
+              }
+              else if (respBot.typeName == "water-level") {
+                this.compDataWater = respBot;
+                // this.component = "WaterLevelCard";
+                messageType = "WaterLevelCard";
+                console.log ("WaterLevelCard sent to frontend")
+              }
             }
-            this.chatScript.push(Object.assign(botInput));
+          }
+          else {
+            messageText = respBot.errorText;
+            messageType = "text";
           }
         }
-        
-        if (!botInput) {
-          botInput = {
-            message:
-              "I'm sorry, I do not understand that. Please type 'help' for a list of suggested questions.",
-            botResp: true,
-            time: h + ":" + m + ":" + s,
-            type: "text"
-          };
-          this.chatScript.push(Object.assign(botInput));
+        else {
+            messageText = respBot.text;
+            messageType = "text";
         }
-        this.msgLoading = false;
-        this.tempMessage = "";
+
+        botInput = {
+          message: messageText,
+          botResp: true,
+          time: h + ":" + m + ":" + s,
+          type: messageType
+        };
+ 
+        this.chatScript.push(Object.assign(botInput));
       }
+        
+      if (!botInput) {
+        botInput = {
+          message:
+            "I'm sorry, I do not understand that. Please type 'help' for a list of suggested questions.",
+          botResp: true,
+          time: h + ":" + m + ":" + s,
+          type: "text"
+        };
+        this.chatScript.push(Object.assign(botInput));
+      }
+      this.msgLoading = false;
+      this.tempMessage = "";
     }
   }
 };
