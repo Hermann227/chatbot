@@ -25,6 +25,12 @@
             <div v-if="chat.type === 'WaterLevelCard'">
               <WaterLevelCard :compData="compDataWater" />
             </div>
+            <div v-if="chat.type === 'UploadFileCard'">
+              <UploadFileCard />
+            </div>
+            <div v-if="chat.type === 'SingleChoiceCard'">
+              <SingleChoiceCard :compData="compDataSingleChoice" @receiveFromChild="onReceiveFromChild"/>
+            </div>
           </div>
           <div v-else>{{chat.message}}</div>
         </span>
@@ -136,12 +142,16 @@ import { store } from '../store.js'
 import { getBotpress } from '../services/apiservices.js';
 import WeatherCard from './WeatherCard.vue';
 import WaterLevelCard from './WaterLevelCard.vue';
+import UploadFileCard from './UploadFileCard.vue';
+import SingleChoiceCard from './SingleChoiceCard.vue';
 
 export default {
   name: "ChatModal",
   components: {
     WeatherCard,
-    WaterLevelCard
+    WaterLevelCard,
+    UploadFileCard,
+    SingleChoiceCard
   },
   data() {
     let time = new Date().getHours() + ":" + new Date().getMinutes();
@@ -150,13 +160,13 @@ export default {
       isActiveIcon: false,
       isActiveNav: false,
       component:"",
-      compWeather: "WeatherCard",
-      compWaterLevel: "WaterLevelCard",
       tempMessage: "",
       msgLoading: false,
       chatScript: [],
       compDataWeather: {},
-      compDataWater: {}
+      compDataWater: {},
+      compDataSingleChoice: {},
+      ReceiveFromChild: ""
     };
   },
   mounted() {
@@ -212,15 +222,17 @@ export default {
               messageText = "";
               if (respBot.typeName == "weather-with-forecast" || respBot.typeName == "weather-without-forecast") {
                 this.compDataWeather = respBot;
-                // this.component = "WeatherCard";
                 messageType = "WeatherCard";
                 console.log ("WeatherCard sent to frontend")
               }
               else if (respBot.typeName == "water-level") {
                 this.compDataWater = respBot;
-                // this.component = "WaterLevelCard";
                 messageType = "WaterLevelCard";
                 console.log ("WaterLevelCard sent to frontend")
+              }
+              else if (respBot.typeName == "upload-file") {
+                messageType = "UploadFileCard";
+                console.log ("UploadFileCard sent to frontend")
               }
             }
           }
@@ -228,6 +240,11 @@ export default {
             messageText = respBot.errorText;
             messageType = "text";
           }
+        }
+        else if (respBot.type == "single-choice") {
+          this.compDataSingleChoice = respBot;
+          messageType = "SingleChoiceCard";
+          console.log ("SingleChoiceCard sent to frontend")
         }
         else {
             messageText = respBot.text;
@@ -256,6 +273,12 @@ export default {
       }
       this.msgLoading = false;
       this.tempMessage = "";
+    },
+    onReceiveFromChild(value) {
+      this.receiveFromChild = value;
+      console.log("onReceiveFromChild: " + value);
+      this.tempMessage = value;
+      this.submit();
     }
   }
 };

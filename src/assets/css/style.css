@@ -94,4 +94,40 @@ p {
     transform: translateY(0); 
     transition: 0.6s linear; 
 }
-
+/* Add basic styles for the upload container */
+.upload-button {
+    width: 1px;
+    position: absolute;
+    opacity: 0;
+    height: 1px;
+    overflow: hidden;
+}
+.remove-button {
+    border: none;
+    background-color: inherit;
+    padding: 5px 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+.submit-button { 
+    background: #e45357;
+    border: 0;
+    border-radius: 7px;
+    padding: 5px 5px;
+    color: #fff;
+    cursor: pointer;
+}
+.choose-item {
+    text-decoration: underline;
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+.bg-gray-100 {
+    background-color: #f7fafc;
+}
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+.bg-green-300 {
+    background-color: #9ae6b4;
+}
